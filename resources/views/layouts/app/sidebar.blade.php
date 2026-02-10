@@ -83,6 +83,17 @@
                     Kategori Alat Musik
                 </flux:sidebar.item>
 
+                {{-- PEMINJAMAN --}}
+                <flux:sidebar.item
+                    icon="clipboard"
+                    :href="route('peminjaman.index')"
+                    :current="request()->routeIs('peminjaman.*')"
+                    wire:navigate
+                >
+                    Peminjaman
+                </flux:sidebar.item>
+
+
 
                 {{-- LOG --}}
                 <flux:sidebar.item

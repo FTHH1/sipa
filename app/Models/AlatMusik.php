@@ -8,11 +8,14 @@ use App\Models\Kategori;
 class AlatMusik extends Model
 {
     protected $fillable = [
-        'kode',
-        'nama',
-        'kategori_id',
-        'deskripsi',
-    ];
+    'kode',
+    'nama',
+    'kategori_id',
+    'merk',
+    'stok',
+    'kondisi',
+    'deskripsi',
+];
 
     public function kategori()
     {

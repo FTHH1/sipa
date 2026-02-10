@@ -32,18 +32,29 @@ class AlatIndex extends Component
             'merk' => 'required',
             'stok' => 'required|numeric',
         ]);
+           $kode = $this->alatId
+    ? AlatMusik::find($this->alatId)->kode
+    : 'ALT-' . str_pad(
+        (AlatMusik::max('id') + 1),
+        4,
+        '0',
+        STR_PAD_LEFT
+    );
 
-        AlatMusik::updateOrCreate(
-            ['id' => $this->alatId],
-            [
-                'nama' => $this->nama,
-                'kategori_id' => $this->kategori_id,
-                'merk' => $this->merk,
-                'stok' => $this->stok,
-                'kondisi' => $this->kondisi,
-                'deskripsi' => $this->deskripsi,
-            ]
-        );
+
+            AlatMusik::updateOrCreate(
+                ['id' => $this->alatId],
+                [
+                    'kode' => $kode, // 🔴 TAMBAH INI
+                    'nama' => $this->nama,
+                    'kategori_id' => $this->kategori_id,
+                    'merk' => $this->merk,
+                    'stok' => $this->stok,
+                    'kondisi' => $this->kondisi,
+                    'deskripsi' => $this->deskripsi,
+                ]
+            );
+
 
         session()->flash('success', 'Data berhasil disimpan');
 

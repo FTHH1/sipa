@@ -7,6 +7,7 @@ use App\Livewire\Admin\Users\Index;
 use App\Livewire\Admin\Users\CreateUser;
 use App\Livewire\Admin\Users\EditUser;
 use App\Livewire\Admin\ActivityLogPage;
+use App\Livewire\Peminjaman\PeminjamanIndex;
 
 Route::middleware(['auth'])->group(function () {
 
@@ -38,6 +39,10 @@ Route::middleware(['auth'])->group(function () {
     // ================= LOG =================
     Route::get('/logs', ActivityLogPage::class)
         ->name('admin.logs');
+
+        // ================= Peminjaman =================
+     Route::get('/peminjaman', PeminjamanIndex::class)
+    ->name('peminjaman.index');
 
 });
 
