@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Kategori;
 
 class AlatMusik extends Model
 {
-    protected $table = 'alat_musik';
-
     protected $fillable = [
         'kode',
         'nama',
-        'jenis',
-        'merk',
-        'stok',
-        'kondisi',
+        'kategori_id',
         'deskripsi',
     ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
 }
