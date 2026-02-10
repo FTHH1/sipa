@@ -4,11 +4,7 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\ActivityLog;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 
-#[Layout('layouts.app')]
-#[Title('Activity Log')]
 class ActivityLogPage extends Component
 {
     public $role = '';
@@ -30,6 +26,8 @@ class ActivityLogPage extends Component
 
         return view('livewire.admin.activity-log-page', [
             'logs' => $logs,
+        ])->layout('layouts.app.sidebar', [
+            'title' => 'Activity Log',
         ]);
     }
 }

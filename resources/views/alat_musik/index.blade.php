@@ -1,5 +1,4 @@
-<x-layouts::app.sidebar :title="'Alat Musik'">
-
+<x-layouts::app.sidebar>
     <flux:card class="space-y-4">
 
         <div class="flex items-center justify-between">
@@ -35,9 +34,7 @@
                         <tr class="border-t">
                             <td class="px-3 py-2">{{ $item->kode }}</td>
                             <td class="px-3 py-2">{{ $item->nama }}</td>
-                            <td class="px-3 py-2">
-                                {{ $item->merk ?? '-' }}
-                            </td>
+                            <td class="px-3 py-2">{{ $item->merk }}</td>
                             <td class="px-3 py-2">{{ $item->jenis }}</td>
                             <td class="px-3 py-2">{{ $item->stok }}</td>
                             <td class="px-3 py-2 capitalize">{{ $item->kondisi }}</td>
@@ -84,5 +81,4 @@
         </div>
 
     </flux:card>
-
 </x-layouts::app.sidebar>

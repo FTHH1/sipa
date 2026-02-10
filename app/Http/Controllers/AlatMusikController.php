@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class AlatMusikController extends Controller
 {
-    public function index()
-    {
-        $alatMusik = AlatMusik::orderBy('created_at', 'desc')->get();
+ public function index()
+{
+    $alatMusik = AlatMusik::latest()->get();
 
-        return view('alat_musik.index', compact('alatMusik'));
-    }
+    return view('alat_musik.index', compact('alatMusik'));
+}
 
     public function create()
     {

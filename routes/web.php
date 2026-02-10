@@ -8,6 +8,7 @@ use App\Livewire\Admin\Users\CreateUser;
 use App\Livewire\Admin\Users\EditUser;
 use App\Http\Controllers\AlatMusikController;
 use App\Livewire\Admin\ActivityLogPage;
+use App\Livewire\Kategori\KategoriIndex;
 
 Route::get('/', fn () => view('welcome'))->name('home');
 Route::middleware('auth')->group(function () {
@@ -16,7 +17,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/', Index::class)->name('index');
         Route::get('/create', CreateUser::class)->name('create');
         Route::get('/{user}/edit', EditUser::class)->name('edit');
+
     });
+
+      Route::get('/kategori', KategoriIndex::class)
+        ->name('kategori.index');
 
     Route::resource('alat-musik', AlatMusikController::class)
         ->except('show');
@@ -26,7 +31,8 @@ Route::get('/dashboard', Dashboard::class)
     ->name('dashboard');
 
     Route::get('/logs', ActivityLogPage::class)
-        ->name('admin.logs');
+        ->name('admin.logs')
+        ->middleware(['auth']);
 });
 
 require __DIR__.'/settings.php';
