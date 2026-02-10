@@ -64,3 +64,33 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+.menu-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    color: #374151;
+}
+
+.menu-link:hover {
+    background-color: #f3f4f6;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    color: #374151;
+    transition: background 0.2s;
+}
+
+.menu-link:hover {
+    background-color: #f3f4f6;
+}
+
+.menu-link.active {
+    background-color: #e5e7eb;
+    font-weight: 600;
+}

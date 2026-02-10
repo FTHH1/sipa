@@ -1,4 +1,7 @@
 {
+
+    
+
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/livewire-starter-kit",
     "type": "project",
@@ -97,4 +100,7 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true
+
+    
 }
+
