@@ -1,6 +1,6 @@
 <div class="space-y-6">
     <div>
-        <h1 class="text-2xl font-bold">Dashboard Admin</h1>
+        <h1 class="text-2xl font-bold">Data Petugas</h1>
         <p class="text-sm text-gray-500">
             Ringkasan sistem peminjaman alat musik
         </p>

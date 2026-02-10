@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\AlatMusik;
 
 class Peminjaman extends Model
 {
@@ -32,6 +34,6 @@ class Peminjaman extends Model
     // RELASI ALAT
     public function alat()
     {
-        return $this->belongsTo(AlatMusik::class, 'alat_musik_id');
+        return $this->belongsTo(AlatMusik::class,);
     }
 }

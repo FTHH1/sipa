@@ -1,7 +1,6 @@
 <x-layouts::app :title="__('Dashboard')">
 
-    <div class="max-w-7xl mx-auto px-6 py-6">
-
+    <div class="w-full p-6 space-y-6">
         @role('admin')
             @include('dashboard.partials.admin')
         @endrole

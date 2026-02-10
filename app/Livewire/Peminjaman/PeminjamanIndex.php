@@ -67,11 +67,11 @@ class PeminjamanIndex extends Component
 
     Peminjaman::create([
         'user_id' => $this->user_id,
-        'alat_musik_id' => $this->alat_musik_id,
+        'alat_id' => $this->alat_musik_id,
         'jumlah' => $this->jumlah,
         'tanggal_pinjam' => $this->tanggal_pinjam,
         'tanggal_kembali' => $this->tanggal_kembali,
-        'status' => $this->status,
+        'status' => 'pending',
         'denda' => $denda, // ⬅️ SIMPAN DENDA
     ]);
 

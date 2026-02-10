@@ -6,6 +6,8 @@
 
 <body class="min-h-screen w-full bg-white dark:bg-zinc-800">
 
+
+
     {{-- SIDEBAR --}}
     <flux:sidebar
         sticky
@@ -33,6 +35,50 @@
 
         {{-- NAV --}}
         <flux:sidebar.nav>
+
+         {{-- PETUGAS --}}
+{{-- PETUGAS --}}
+@auth
+@if(auth()->user()->role === 'petugas')
+
+<flux:sidebar.group heading="Petugas" class="grid mt-4">
+
+    <flux:sidebar.item
+        icon="home"
+        :href="route('dashboard.petugas')"
+        :current="request()->routeIs('dashboard.petugas')"
+        wire:navigate
+    >
+        Dashboard
+    </flux:sidebar.item>
+
+    <flux:sidebar.item
+        icon="eye"
+        :href="route('monitoring.index')"
+        :current="request()->routeIs('monitoring.*')"
+        wire:navigate
+    >
+        Monitoring
+    </flux:sidebar.item>
+
+    <flux:sidebar.item
+        icon="printer"
+        :href="route('laporan.index')"
+        :current="request()->routeIs('laporan.*')"
+        wire:navigate
+    >
+        Laporan
+    </flux:sidebar.item>
+
+</flux:sidebar.group>
+
+@endif
+@endauth
+
+
+
+
+
 
             @auth
             @if(auth()->user()->role === 'admin')
