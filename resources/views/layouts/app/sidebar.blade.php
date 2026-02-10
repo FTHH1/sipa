@@ -6,75 +6,66 @@
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.header>
-                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />     
+                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
                 <span class="font-semibold uppercase">
                      {{ auth()->check() ? ucfirst(auth()->user()->role) : 'Admin' }}
                 </span>
- 
+
 
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
            <flux:sidebar.nav>
 
-    {{-- PLATFORM (UMUM) --}}
-    <flux:sidebar.group :heading="__('Platform')" class="grid">
-        <flux:sidebar.item
-            icon="home"
-            :href="route('dashboard')"
-            :current="request()->routeIs('dashboard')"
-            wire:navigate
-        >
-            {{ __('Dashboard') }}
-        </flux:sidebar.item>
-    </flux:sidebar.group>
+   {{-- ================= ADMIN ================= --}}
+@auth
+@if(auth()->user()->role === 'admin')
 
-    {{-- ================= ADMIN ================= --}}
-    @auth
-    @if(auth()->user()->role === 'admin')
+<flux:sidebar.group heading="Admin" class="grid mt-4">
 
-        <flux:sidebar.group :heading="__('Admin')" class="grid mt-4">
+    <flux:sidebar.item
+        icon="home"
+        :href="route('dashboard')"
+        :current="request()->routeIs('dashboard')"
+        wire:navigate
+    >
+        Dashboard Admin
+    </flux:sidebar.item>
 
-            <flux:sidebar.item
-                icon="chart-bar"
-                :href="route('admin.dashboard')"
-                :current="request()->routeIs('admin.dashboard')"
-                wire:navigate
-            >
-                Dashboard Admin
-            </flux:sidebar.item>
+    <flux:sidebar.item
+        icon="users"
+        :href="route('admin.users.index')"
+        :current="request()->routeIs('admin.users.*')"
+        wire:navigate
+    >
+         User
+    </flux:sidebar.item>
 
-            <flux:sidebar.item
-                icon="users"
-                :href="route('admin.users.index')"
-                :current="request()->routeIs('admin.users*')"
-                wire:navigate
-            >
-                Semua User
-            </flux:sidebar.item>
 
-            <flux:sidebar.item
-                icon="user-plus"
-                :href="route('admin.users.create')"
-                :current="request()->routeIs('admin.users.create')"
-                wire:navigate
-            >
-                Tambah User
-            </flux:sidebar.item>
+<flux:sidebar.item
+    icon="musical-note"
+    :href="route('alat-musik.index')"
+    :current="request()->routeIs('alat-musik.*')"
+    wire:navigate
+>
+    Alat Musik
+</flux:sidebar.item>
 
-            <flux:sidebar.item
-                icon="clipboard-document-list"
-                :href="route('admin.logs')"
-                :current="request()->routeIs('admin.logs')"
-                wire:navigate
-            >
-                Activity Log
-            </flux:sidebar.item>
 
-        </flux:sidebar.group>
+    <flux:sidebar.item
+        icon="clipboard-document-list"
+        :href="route('admin.logs')"
+        :current="request()->routeIs('admin.logs')"
+        wire:navigate
+    >
+        Activity Log
+    </flux:sidebar.item>
 
-    @endif
-    @endauth
+</flux:sidebar.group>
+
+@endif
+@endauth
+
     {{-- ========================================= --}}
 
 </flux:sidebar.nav>
@@ -100,7 +91,7 @@
 
         <!-- Mobile User Menu -->
         @auth
-       
+
         <flux:header class="lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
@@ -155,7 +146,9 @@
             </flux:dropdown>
         </flux:header>
             @endauth
-        {{ $slot }}
+      <flux:main class="p-6 w-full">
+    {{ $slot }}
+    </flux:main>
 
         @fluxScripts
     </body>

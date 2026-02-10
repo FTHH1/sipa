@@ -12,7 +12,7 @@ class LoginResponse implements LoginResponseContract
 
         return redirect()->route(
             $user->role === 'admin'
-                ? 'admin.dashboard'
+                ? 'dashboard'
                 : 'dashboard'
         );
     }

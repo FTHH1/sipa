@@ -6,36 +6,27 @@ use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Users\Index;
 use App\Livewire\Admin\Users\CreateUser;
 use App\Livewire\Admin\Users\EditUser;
+use App\Http\Controllers\AlatMusikController;
 use App\Livewire\Admin\ActivityLogPage;
 
-
 Route::get('/', fn () => view('welcome'))->name('home');
-
 Route::middleware('auth')->group(function () {
 
+    Route::prefix('users')->name('admin.users.')->group(function () {
+        Route::get('/', Index::class)->name('index');
+        Route::get('/create', CreateUser::class)->name('create');
+        Route::get('/{user}/edit', EditUser::class)->name('edit');
+    });
 
+    Route::resource('alat-musik', AlatMusikController::class)
+        ->except('show');
 
-    // Satu dashboard untuk semua role
-    Route::get('/dashboard', fn () => view('dashboard'))    
-        ->name('dashboard');
+Route::get('/dashboard', Dashboard::class)
+    ->middleware('auth')
+    ->name('dashboard');
 
-    // Optional alias khusus admin (redirect saja)
-
-        Route::get('/users', Index::class)
-            ->name('admin.users.index');
-
-        Route::get('/users/create', CreateUser::class)
-            ->name('admin.users.create');
-
-         Route::get('/users/{user}/edit', EditUser::class)
-            ->name('admin.users.edit');
-
-         Route::get('/logs', ActivityLogPage::class)
-             ->name('admin.logs');
-
-
-
+    Route::get('/logs', ActivityLogPage::class)
+        ->name('admin.logs');
 });
 
 require __DIR__.'/settings.php';
-    

@@ -1,12 +1,20 @@
 <div>
-    <flux:card>
+    <flux:card class="max-w-xl">
         <h2 class="text-lg font-semibold mb-4">Edit User</h2>
 
         <form wire:submit.prevent="save" class="space-y-4">
 
-            {{-- Email --}}
             <div>
-                <label class="block text-sm font-medium mb-1">Email</label>
+                <label class="text-sm font-medium">Nama</label>
+                <input
+                    type="text"
+                    wire:model.defer="user.name"
+                    class="w-full border rounded px-3 py-2"
+                />
+            </div>
+
+            <div>
+                <label class="text-sm font-medium">Email</label>
                 <input
                     type="email"
                     wire:model.defer="user.email"
@@ -14,9 +22,8 @@
                 />
             </div>
 
-            {{-- Role --}}
             <div>
-                <label class="block text-sm font-medium mb-1">Role</label>
+                <label class="text-sm font-medium">Role</label>
                 <select
                     wire:model.defer="user.role"
                     class="w-full border rounded px-3 py-2"
@@ -27,13 +34,21 @@
                 </select>
             </div>
 
-            {{-- Actions --}}
             <div class="flex gap-3 pt-4">
                 <button
                     type="submit"
                     class="px-4 py-2 bg-blue-600 text-black rounded hover:bg-blue-700"
                 >
                     Simpan
+                </button>
+
+                <button
+                    type="button"
+                    onclick="confirm('Yakin hapus user ini?') || event.stopImmediatePropagation()"
+                    wire:click="delete"
+                    class="px-4 py-2 bg-red-600 text-black rounded hover:bg-red-700"
+                >
+                    Hapus
                 </button>
 
                 <a
