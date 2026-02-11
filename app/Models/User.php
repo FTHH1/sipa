@@ -63,4 +63,10 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    // relasi ke peminjaman
+        public function peminjamans()
+        {
+            return $this->hasMany(Peminjaman::class);
+        }
 }

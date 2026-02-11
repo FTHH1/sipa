@@ -21,6 +21,9 @@ use App\Livewire\Peminjaman\PeminjamanIndex;
 use App\Livewire\AlatMusik\AlatIndex;
 use App\Livewire\Kategori\KategoriIndex;
 
+//PEMINJAM
+use App\Livewire\Peminjam\Dashboard;
+
 /*
 |--------------------------------------------------------------------------
 | Redirect Awal
@@ -80,6 +83,19 @@ Route::middleware(['auth'])->group(function () {
             ->name('laporan.cetak');
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | PEMINJAM
+    |--------------------------------------------------------------------------
+    */
+
+    Route::middleware(['role:peminjam'])->group(function () {
+
+          Route::get('/peminjam/dashboard', Dashboard::class)
+            ->name('peminjam.dashboard');
+    });
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -113,6 +129,7 @@ Route::get('/home', function () {
     return match ($role) {
         'admin'   => redirect()->route('dashboard'),
         'petugas' => redirect()->route('dashboard.petugas'),
+        'peminjam' =>redirect()->route('peminjam.dashboard'),
         default   => redirect('/'),
     };
 
