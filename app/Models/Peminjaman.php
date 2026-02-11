@@ -32,8 +32,9 @@ class Peminjaman extends Model
     }
 
     // RELASI ALAT
-    public function alat()
-    {
-        return $this->belongsTo(AlatMusik::class,);
-    }
+            public function alat()
+            {
+                return $this->belongsTo(AlatMusik::class, 'alat_id');
+            }
+
 }

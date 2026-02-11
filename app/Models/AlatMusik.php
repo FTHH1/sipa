@@ -17,8 +17,8 @@ class AlatMusik extends Model
     'deskripsi',
 ];
 
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class);
-    }
+        public function kategori()
+        {
+            return $this->belongsTo(Kategori::class);
+        }
 }

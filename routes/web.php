@@ -23,6 +23,10 @@ use App\Livewire\Kategori\KategoriIndex;
 
 //PEMINJAM
 use App\Livewire\Peminjam\Dashboard;
+use App\Livewire\Peminjam\DaftarAlatMusik;
+use App\Livewire\Peminjam\Ajukan;
+use App\Livewire\Peminjam\PinjamanSaya;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -83,18 +87,30 @@ Route::middleware(['auth'])->group(function () {
             ->name('laporan.cetak');
     });
 
-    /*
-    |--------------------------------------------------------------------------
-    | PEMINJAM
-    |--------------------------------------------------------------------------
-    */
+ /*
+|--------------------------------------------------------------------------
+| PEMINJAM
+|--------------------------------------------------------------------------
+*/
 
-    Route::middleware(['role:peminjam'])->group(function () {
+Route::middleware(['role:peminjam'])->group(function () {
 
-          Route::get('/peminjam/dashboard', Dashboard::class)
-            ->name('peminjam.dashboard');
-    });
+    Route::get('/peminjam/dashboard', Dashboard::class)
+        ->name('peminjam.dashboard');
 
+    Route::get('/peminjam/daftar-alat-musik', DaftarAlatMusik::class)
+        ->name('peminjam.daftar-alat-musik');
+
+            Route::get('/peminjam/ajukan/{id}', Ajukan::class)
+        ->name('peminjam.ajukan');
+
+    Route::get('/peminjam/pinjaman-saya', PinjamanSaya::class)
+        ->name('peminjam.pinjaman-saya');
+
+    Route::get('ajukan/{id}', Ajukan::class)
+        ->name('ajukan');
+
+});
 
 
     /*

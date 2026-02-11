@@ -1,35 +1,66 @@
-<div class="p-6">
+<div class="w-full">
 
     <h1 class="text-2xl font-bold mb-6">
         Dashboard Peminjam
     </h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    {{-- GRID --}}
+    <div class="w-full grid gap-6"
+         style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
 
-        {{-- Total --}}
-        <div class="bg-white p-4 rounded shadow">
-            <h3 class="text-gray-500">Total Peminjaman</h3>
-            <p class="text-3xl font-bold">{{ $total }}</p>
+        <!-- Total -->
+        <div class="bg-white rounded-xl shadow p-5 hover:shadow-lg transition">
+
+            <p class="text-sm text-gray-500">
+                Total Peminjaman
+            </p>
+
+            <p class="text-3xl font-bold mt-2">
+                {{ $total }}
+            </p>
+
         </div>
 
-        {{-- Aktif --}}
-        <div class="bg-blue-100 p-4 rounded shadow">
-            <h3 class="text-gray-600">Sedang Dipinjam</h3>
-            <p class="text-3xl font-bold">{{ $aktif }}</p>
+
+        <!-- Aktif -->
+        <div class="bg-white rounded-xl shadow p-5 hover:shadow-lg transition">
+
+            <p class="text-sm text-gray-500">
+                Sedang Dipinjam
+            </p>
+
+            <p class="text-3xl font-bold mt-2">
+                {{ $aktif }}
+            </p>
+
         </div>
 
-        {{-- Selesai --}}
-        <div class="bg-green-100 p-4 rounded shadow">
-            <h3 class="text-gray-600">Selesai</h3>
-            <p class="text-3xl font-bold">{{ $selesai }}</p>
+
+        <!-- Selesai -->
+        <div class="bg-white rounded-xl shadow p-5 hover:shadow-lg transition">
+
+            <p class="text-sm text-gray-500">
+                Selesai
+            </p>
+
+            <p class="text-3xl font-bold mt-2">
+                {{ $selesai }}
+            </p>
+
         </div>
 
-        {{-- Denda --}}
-        <div class="bg-red-100 p-4 rounded shadow">
-            <h3 class="text-gray-600">Total Denda</h3>
-            <p class="text-3xl font-bold">
+
+        <!-- Denda -->
+        <div class="bg-white rounded-xl shadow p-5 hover:shadow-lg transition">
+
+            <p class="text-sm text-gray-500">
+                Total Denda
+            </p>
+
+            <p class="text-3xl font-bold mt-2">
                 Rp {{ number_format($totalDenda) }}
             </p>
+
         </div>
 
     </div>

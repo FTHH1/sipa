@@ -4,7 +4,7 @@ namespace App\Livewire\Peminjam;
 
 use Livewire\Component;
 use App\Models\Peminjaman;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Dashboard extends Component
 {
@@ -13,23 +13,29 @@ class Dashboard extends Component
     public $selesai;
     public $totalDenda;
 
-    public function mount()
-    {
-        $userId = Auth::id();
+  public function mount()
+{
+    $userId = auth()->id();
 
-        $this->total = Peminjaman::where('user_id', $userId)->count();
+    // Total semua peminjaman
+    $this->total = Peminjaman::where('user_id', $userId)->count();
 
-        $this->aktif = Peminjaman::where('user_id', $userId)
-                        ->where('status', 'dipinjam')
-                        ->count();
+    // Sedang dipinjam (yang belum dikembalikan)
+    $this->aktif = Peminjaman::where('user_id', $userId)
+        ->where('status', '!=', 'dikembalikan')
+        ->count();
 
-        $this->selesai = Peminjaman::where('user_id', $userId)
-                        ->where('status', 'selesai')
-                        ->count();
+    // Selesai / Dikembalikan
+    $this->selesai = Peminjaman::where('user_id', $userId)
+        ->where('status', 'dikembalikan')
+        ->count();
 
-        $this->totalDenda = Peminjaman::where('user_id', $userId)
-                        ->sum('denda');
-    }
+    // Total denda
+    $totalDenda = Peminjaman::where('user_id', auth()->id())
+    ->sum(DB::raw('GREATEST(denda,0)'));
+
+}
+
 
     public function render()
     {
