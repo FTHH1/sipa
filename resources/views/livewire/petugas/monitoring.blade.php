@@ -55,25 +55,42 @@
                 </td>
 
 
-                <td class="p-2 border text-center space-x-2">
+               <td class="p-2 border text-center space-x-2">
 
-                    {{-- SETUJUI --}}
-                    <button
-                        wire:click="setujui({{ $p->id }})"
-                        class="px-2 py-1 bg-green-600 text-black rounded text-xs"
-                    >
-                        Setujui
-                    </button>
+                        {{-- SETUJUI --}}
+                        @if($p->status === 'pending')
+                            <button
+                                wire:click="setujui({{ $p->id }})"
+                                class="px-2 py-1 bg-green-600 text-black rounded text-xs"
+                            >
+                                Setujui
+                            </button>
+                        @endif
 
-                    {{-- TOLAK --}}
-                    <button
-                        wire:click="tolak({{ $p->id }})"
-                        class="px-2 py-1 bg-red-600 text-black rounded text-xs"
-                    >
-                        Tolak
-                    </button>
 
-                </td>
+                        {{-- TOLAK --}}
+                        @if($p->status === 'pending')
+                            <button
+                                wire:click="tolak({{ $p->id }})"
+                                class="px-2 py-1 bg-red-600 text-black rounded text-xs"
+                            >
+                                Tolak
+                            </button>
+                        @endif
+
+
+                        {{-- PINJAMKAN --}}
+                        @if($p->status === 'disetujui')
+                            <button
+                                wire:click="pinjamkan({{ $p->id }})"
+                                class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            >
+                                Pinjamkan
+                            </button>
+                        @endif
+
+                    </td>
+
             </tr>
         @empty
             <tr>

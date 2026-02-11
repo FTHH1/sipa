@@ -163,6 +163,34 @@ private function hitungDenda()
 }
 
 
+public function pinjamkan($id)
+{
+    DB::transaction(function () use ($id) {
+
+        $pinjam = Peminjaman::where('id', $id)
+            ->where('status', 'disetujui')
+            ->firstOrFail();
+
+        // Cek stok
+        $alat = AlatMusik::findOrFail($pinjam->alat_id);
+
+        if ($alat->stok < $pinjam->jumlah) {
+            throw new \Exception('Stok tidak cukup');
+        }
+
+        // Kurangi stok
+        $alat->decrement('stok', $pinjam->jumlah);
+
+        // Update status
+        $pinjam->update([
+            'status' => 'dipinjam'
+        ]);
+    });
+
+    session()->flash('success', 'Alat berhasil dipinjamkan');
+}
+
+
 
 public function updatedStatus()
 {
