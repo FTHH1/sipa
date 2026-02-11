@@ -60,7 +60,7 @@
                     {{-- SETUJUI --}}
                     <button
                         wire:click="setujui({{ $p->id }})"
-                        class="px-2 py-1 bg-green-600 text-white rounded text-xs"
+                        class="px-2 py-1 bg-green-600 text-black rounded text-xs"
                     >
                         Setujui
                     </button>
@@ -68,7 +68,7 @@
                     {{-- TOLAK --}}
                     <button
                         wire:click="tolak({{ $p->id }})"
-                        class="px-2 py-1 bg-red-600 text-white rounded text-xs"
+                        class="px-2 py-1 bg-red-600 text-black rounded text-xs"
                     >
                         Tolak
                     </button>
