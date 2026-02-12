@@ -37,9 +37,16 @@ class PeminjamanIndex extends Component
     public function render()
     {
         return view('livewire.peminjaman.peminjaman-index', [
-            'peminjamans' => Peminjaman::latest()->get(),
-            'users' => User::all(),
-            'alats' => AlatMusik::all(),
+            // Semua data
+        'peminjamans' => Peminjaman::with(['user','alat'])
+            ->latest()
+            ->get(),
+
+        // Data pengembalian
+        'pengembalians' => Peminjaman::with(['user','alat'])
+            ->whereIn('status', ['minta_kembali','dikembalikan'])
+            ->latest()
+            ->get(),
         ]);
     }
 

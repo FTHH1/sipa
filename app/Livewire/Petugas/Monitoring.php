@@ -18,6 +18,11 @@ class Monitoring extends Component
             'status' => 'disetujui'
         ]);
 
+    logActivity(
+            'Setujui Peminjaman',
+            'Menyetujui peminjaman ID '.$id
+        );
+
         session()->flash('success', 'Peminjaman disetujui');
     }
 
@@ -35,10 +40,10 @@ public function pinjamkan($id)
     ]);
 
     // LOG
-    \Log::info('Peminjaman dipinjamkan', [
-        'user' => auth()->user()->name,
-        'alat' => $pinjam->alat->nama ?? '-',
-    ]);
+    logActivity(
+    'Pinjamkan Alat',
+    'Meminjamkan: '.$pinjam->alat->nama
+);
 
     session()->flash('success', 'Barang berhasil dipinjamkan');
 }
@@ -65,10 +70,14 @@ public function pinjamkan($id)
                                 ->latest()
                                 ->get()
                         ]);
+                            logActivity(
+                                'Tolak Peminjaman',
+                                'Menolak peminjaman ID '.$id
+                      );
                     }
 
 
-            public function terimaPengembalian($id)
+public function terimaPengembalian($id)
 {
     DB::transaction(function () use ($id) {
 
@@ -87,10 +96,11 @@ public function pinjamkan($id)
             $pinjam->alat->increment('stok', $pinjam->jumlah);
         }
 
-        \Log::info('Pengembalian disetujui', [
-            'user' => auth()->user()->name,
-            'alat' => $pinjam->alat->nama ?? '-',
-        ]);
+                    logActivity(
+                'Terima Pengembalian',
+                'Menerima pengembalian: '.$pinjam->alat->nama
+            );
+
     });
 
     session()->flash('success', 'Pengembalian berhasil diverifikasi.');

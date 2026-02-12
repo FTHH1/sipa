@@ -12,8 +12,6 @@ class PinjamanSaya extends Component
     public function kembalikan($id)
 {
 
-
-
     DB::transaction(function () use ($id) {
 
         $pinjam = Peminjaman::with('alat')
@@ -28,10 +26,10 @@ class PinjamanSaya extends Component
         ]);
 
 
-        \Log::info('User mengajukan pengembalian', [
-            'user' => auth()->user()->name,
-            'alat' => $pinjam->alat->nama ?? '-',
-        ]);
+                logActivity(
+            'Ajukan Pengembalian',
+            'Mengajukan pengembalian: '.$pinjam->alat->nama
+                );
     });
 
     session()->flash('success', 'Permintaan pengembalian dikirim');
@@ -39,7 +37,6 @@ class PinjamanSaya extends Component
 
     public function ajukanKembali($id)
 {
-
 
     $pinjam = Peminjaman::where('id', $id)
         ->where('user_id', auth()->id())
@@ -50,10 +47,7 @@ class PinjamanSaya extends Component
         'status' => 'minta_kembali'
     ]);
 
-    \Log::info('Pengajuan pengembalian', [
-        'user' => auth()->user()->name,
-        'alat' => $pinjam->alat->nama ?? '-',
-    ]);
+
 
     session()->flash('success', 'Pengembalian diajukan, tunggu persetujuan petugas.');
 }

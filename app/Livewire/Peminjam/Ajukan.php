@@ -63,12 +63,10 @@ class Ajukan extends Component
             // KURANGI STOK
             $this->alat->decrement('stok', $this->jumlah);
 
-            // LOG AKTIVITAS
-            Log::info('Peminjaman diajukan', [
-                'user' => auth()->user()->name,
-                'alat' => $this->alat->nama,
-                'jumlah' => $this->jumlah,
-            ]);
+            logActivity(
+                    'Ajukan Peminjaman',
+                    'Mengajukan alat: '.$this->alat->nama
+                );
 
         }); // ← WAJIB ADA (penutup transaction)
 

@@ -121,4 +121,93 @@
 
         </flux:card>
 
+
+                {{-- ================= --}}
+{{-- DATA PENGEMBALIAN --}}
+{{-- ================= --}}
+
+<flux:card class="mt-10 w-full">
+
+    <flux:heading size="sm" class="mb-4">
+        Monitoring Pengembalian
+    </flux:heading>
+
+    <div class="overflow-x-auto">
+
+        <table class="w-full text-sm border">
+
+            <thead class="bg-zinc-100">
+
+                <tr>
+                    <th class="p-2">No</th>
+                    <th class="p-2">User</th>
+                    <th class="p-2">Alat</th>
+                    <th class="p-2">Jumlah</th>
+                    <th class="p-2">Status</th>
+                    <th class="p-2">Tanggal</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            @forelse($pengembalians as $item)
+
+                <tr class="border-t text-center">
+
+                    <td class="p-2">{{ $loop->iteration }}</td>
+
+                    <td class="p-2">
+                        {{ $item->user->name ?? '-' }}
+                    </td>
+
+                    <td class="p-2">
+                        {{ $item->alat->nama ?? '-' }}
+                    </td>
+
+                    <td class="p-2">
+                        {{ $item->jumlah }}
+                    </td>
+
+                    <td class="p-2 font-semibold">
+
+                        @if($item->status == 'minta_kembali')
+                            <span class="text-orange-600">
+                                Menunggu Verifikasi
+                            </span>
+                        @elseif($item->status == 'dikembalikan')
+                            <span class="text-green-600">
+                                Selesai
+                            </span>
+                        @endif
+
+                    </td>
+
+                    <td class="p-2">
+                        {{ $item->updated_at->format('d-m-Y') }}
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+                    <td colspan="6"
+                        class="p-4 text-center text-gray-500">
+
+                        Belum ada pengembalian
+
+                    </td>
+                </tr>
+
+            @endforelse
+
+            </tbody>
+
+        </table>
+
     </div>
+
+</flux:card>
+
+</div>

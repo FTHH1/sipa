@@ -17,7 +17,10 @@
         </div>
     @endif
 
-    {{-- ================= TABLE PEMINJAMAN ================= --}}
+
+    {{-- ================== TABLE PEMINJAMAN ================== --}}
+    <h3 class="font-semibold mb-2">Data Peminjaman</h3>
+
     <table class="w-full border text-sm mb-8">
 
         <thead>
@@ -35,9 +38,18 @@
         @forelse ($peminjamans->whereIn('status',['pending','disetujui']) as $p)
 
             <tr>
-                <td class="p-2 border">{{ $p->user->name }}</td>
-                <td class="p-2 border">{{ $p->alat->nama ?? '-' }}</td>
-                <td class="p-2 border">{{ $p->created_at->format('d-m-Y') }}</td>
+
+                <td class="p-2 border">
+                    {{ $p->user->name ?? '-' }}
+                </td>
+
+                <td class="p-2 border">
+                    {{ $p->alat->nama ?? '-' }}
+                </td>
+
+                <td class="p-2 border text-center">
+                    {{ $p->created_at->format('d-m-Y') }}
+                </td>
 
                 <td class="p-2 border text-center">
                     <span class="font-semibold text-blue-600">
@@ -76,26 +88,26 @@
                     @endif
 
                 </td>
+
             </tr>
 
         @empty
+
             <tr>
                 <td colspan="5" class="text-center p-4 text-gray-500">
-                    Tidak ada data
+                    Tidak ada data peminjaman
                 </td>
             </tr>
+
         @endforelse
 
         </tbody>
+
     </table>
 
 
-
-    {{-- ================= MONITORING PENGEMBALIAN ================= --}}
-    <h2 class="font-bold mb-4 text-lg">
-        Monitoring Pengembalian
-    </h2>
-
+    {{-- ================== TABLE PENGEMBALIAN ================== --}}
+    <h3 class="font-semibold mb-2">Data Pengembalian</h3>
 
     <table class="w-full border text-sm">
 
@@ -115,23 +127,29 @@
 
             <tr>
 
-                <td class="p-2 border">{{ $p->user->name }}</td>
-                <td class="p-2 border">{{ $p->alat->nama ?? '-' }}</td>
-                <td class="p-2 border">{{ $p->updated_at->format('d-m-Y') }}</td>
+                <td class="p-2 border">
+                    {{ $p->user->name ?? '-' }}
+                </td>
+
+                <td class="p-2 border">
+                    {{ $p->alat->nama ?? '-' }}
+                </td>
 
                 <td class="p-2 border text-center">
-                    <span class="font-semibold text-orange-600">
-                        Minta Kembali
-                    </span>
+                    {{ $p->updated_at->format('d-m-Y') }}
+                </td>
+
+                <td class="p-2 border text-center text-orange-600 font-semibold">
+                    Minta Kembali
                 </td>
 
                 <td class="p-2 border text-center">
 
                     <button
                         wire:click="terimaPengembalian({{ $p->id }})"
-                        class="px-3 py-1 bg-orange-600 text-black rounded text-xs hover:bg-orange-700"
+                        class="px-3 py-1 bg-green-600 text-black rounded text-xs"
                     >
-                        Terima Kembali
+                        Terima
                     </button>
 
                 </td>
@@ -142,7 +160,7 @@
 
             <tr>
                 <td colspan="5" class="text-center p-4 text-gray-500">
-                    Tidak ada pengembalian
+                    Tidak ada data pengembalian
                 </td>
             </tr>
 
