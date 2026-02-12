@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('no_hp', 20)->nullable();
+            $table->string('alamat')->nullable();
             $table->string('password');
             // Role enum sekarang ada admin, petugas, peminjam
             $table->timestamps();

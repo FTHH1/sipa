@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -24,6 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'alamat',
+        'no_hp',
         'role',
     ];
 

@@ -19,6 +19,30 @@
                 :placeholder="__('Full name')"
             />
 
+                <!-- No HP -->
+                <flux:input
+                    name="no_hp"
+                    :label="__('No Handphone')"
+                    :value="old('no_hp')"
+                    type="text"
+                    required
+                    autocomplete="tel"
+                    placeholder="08xxxxxxxxxx"
+                />
+
+
+             <!-- Alamat -->
+            <flux:input
+                name="alamat"
+                :label="__('Alamat')"
+                :value="old('alamat')"
+                type="text"
+                required
+                autofocus
+                autocomplete="alamat"
+                :placeholder="__('Isikan Alamat Mu Disini')"
+            />
+
             <!-- Email Address -->
             <flux:input
                 name="email"
