@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AlatMusik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class AlatMusikController extends Controller
 {
@@ -92,17 +93,5 @@ class AlatMusikController extends Controller
         return sprintf('AM-%s-%04d', $year, $number);
     }
 
-    public function show($id)
-{
-    $alatMusik = AlatMusik::findOrFail($id);
-
-    $stokBagus = DB::table('alat_musik_unit')
-        ->where('alat_musik_id', $alatMusik->id)
-        ->where('kondisi', 'bagus')
-        ->where('status', 'tersedia')
-        ->count();
-
-    return view('alat_musik.show', compact('alatMusik', 'stokBagus'));
-}
 
 }

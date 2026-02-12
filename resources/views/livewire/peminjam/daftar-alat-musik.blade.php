@@ -11,15 +11,7 @@
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4
                         hover:shadow-md transition duration-200">
 
-                {{-- Gambar --}}
-                <div class="h-32 bg-gray-100 flex items-center justify-center rounded mb-3">
-                    @if($alat->gambar)
-                        <img src="{{ asset('storage/'.$alat->gambar) }}"
-                             class="h-full object-contain">
-                    @else
-                        <span class="text-gray-400 text-sm">No Image</span>
-                    @endif
-                </div>
+             //
 
                 {{-- Nama --}}
                 <h3 class="font-bold text-lg">

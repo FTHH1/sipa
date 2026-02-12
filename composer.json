@@ -1,6 +1,8 @@
 {
 
-    
+
+
+
 
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/livewire-starter-kit",
@@ -38,6 +40,11 @@
             "Database\\Seeders\\": "database/seeders/"
         }
     },
+
+    "files": [
+    "app/Helpers/ActivityLogger.php"
+],
+
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
@@ -103,5 +110,5 @@
     "minimum-stability": "stable",
     "prefer-stable": true
 
-    
+
 }

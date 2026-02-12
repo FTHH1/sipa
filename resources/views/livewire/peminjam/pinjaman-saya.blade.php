@@ -74,28 +74,29 @@
 
                     <td class="p-3 text-center">
 
-                        {{-- Tombol Kembalikan --}}
-                        @if($item->status == 'dipinjam')
+                                {{-- Jika sedang dipinjam --}}
+                                @if($item->status == 'dipinjam')
 
-                            <button
-                                wire:click="kembalikan({{ $item->id }})"
-                                onclick="confirm('Yakin mau mengembalikan alat ini?') || event.stopImmediatePropagation()"
-                                class="px-4 py-1 bg-red-600 text-black rounded
-                                       hover:bg-red-700 transition">
+                                    <button
+                                        wire:click="kembalikan({{ $item->id }})"
+                                        onclick="confirm('Ajukan pengembalian?') || event.stopImmediatePropagation()"
+                                        class="px-4 py-1 bg-red-600 text-black rounded hover:bg-red-700"
+                                    >
+                                        Ajukan Pengembalian
+                                    </button>
 
-                                Kembalikan
+                                {{-- Jika sudah minta kembali --}}
+                                @elseif($item->status == 'minta_kembali')
 
-                            </button>
+                                    <span class="text-yellow-600 text-sm font-semibold">
+                                        Menunggu Verifikasi
+                                    </span>
 
-                        @else
+                                @else
+                                    -
+                                @endif
 
-                            <span class="text-gray-400 text-sm">
-                                -
-                            </span>
-
-                        @endif
-
-                    </td>
+                            </td>
 
                 </tr>
 

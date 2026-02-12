@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Peminjaman;
 
+
 class Dashboard extends Component
 {
     public $totalUser;

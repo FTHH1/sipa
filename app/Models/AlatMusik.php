@@ -17,6 +17,13 @@ class AlatMusik extends Model
     'deskripsi',
 ];
 
+
+public function peminjamans()
+{
+    return $this->hasMany(peminjamans::class, 'alat_id');
+}
+
+
         public function kategori()
         {
             return $this->belongsTo(Kategori::class);

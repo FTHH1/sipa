@@ -13,18 +13,7 @@
                 {{-- LEFT : INFO ALAT --}}
                 <div class="space-y-5">
 
-                    {{-- Gambar --}}
-                    <div
-                        class="w-full h-56 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden border">
-
-                        @if($alat->gambar)
-                            <img src="{{ asset('storage/'.$alat->gambar) }}"
-                                class="w-full h-full object-contain">
-                        @else
-                            <span class="text-gray-400">No Image</span>
-                        @endif
-
-                    </div>
+                  //
 
 
                     {{-- Detail --}}
@@ -126,7 +115,7 @@
                                         max="{{ $alat->stok }}"
                                         wire:model.defer="jumlah"
                                         class="w-full max-w-xs border rounded-lg px-3 py-2 mt-1
-                                        
+
                                         @error('jumlah') border-red-500 @enderror"
                                         placeholder="Masukkan jumlah">
 

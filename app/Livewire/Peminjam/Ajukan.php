@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\AlatMusik;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Ajukan extends Component
 {
@@ -16,16 +17,17 @@ class Ajukan extends Component
     public $catatan;
 
     protected $rules = [
-        'tanggal_pinjam' => 'required|date',
-        'tanggal_kembali' => 'required|date|after_or_equal:tanggal_pinjam',
-         'catatan'          => 'required|min:3',
+        'tanggal_pinjam'   => 'required|date',
+        'tanggal_kembali'  => 'required|date|after_or_equal:tanggal_pinjam',
+        'catatan'          => 'required|min:3',
         'jumlah'           => 'required|integer|min:1',
     ];
 
     protected $messages = [
-        'tanggal_pinjam.required' => 'Tanggal pinjam wajib diisi',
+        'tanggal_pinjam.required'  => 'Tanggal pinjam wajib diisi',
         'tanggal_kembali.required' => 'Tanggal kembali wajib diisi',
         'tanggal_kembali.after_or_equal' => 'Tanggal kembali tidak boleh sebelum tanggal pinjam',
+        'catatan.required' => 'Catatan wajib diisi',
     ];
 
     public function mount($id)
@@ -34,42 +36,46 @@ class Ajukan extends Component
     }
 
     public function submit()
-{
-    // VALIDASI
-    $this->validate();
+    {
 
-    DB::transaction(function () {
+        // VALIDASI
+        $this->validate();
 
-        // Lock data alat biar aman
-        $alat = AlatMusik::where('id', $this->alat->id)
-                        ->lockForUpdate()
-                        ->first();
-
-        // Cek stok lagi (biar realtime)
-        if ($this->jumlah > $alat->stok) {
+        // CEK STOK
+        if ($this->jumlah > $this->alat->stok) {
             $this->addError('jumlah', 'Jumlah melebihi stok tersedia');
             return;
         }
 
-        // SIMPAN PEMINJAMAN
-        Peminjaman::create([
-            'user_id' => auth()->id(),
-            'alat_id' => $alat->id,
-            'tanggal_pinjam' => $this->tanggal_pinjam,
-            'tanggal_kembali' => $this->tanggal_kembali,
-            'jumlah' => $this->jumlah,
-            'catatan' => $this->catatan,
-            'status' => 'pending',
-        ]);
+        DB::transaction(function () {
 
+            // SIMPAN PEMINJAMAN
+            Peminjaman::create([
+                'user_id'        => auth()->id(),
+                'alat_id'        => $this->alat->id,
+                'tanggal_pinjam'=> $this->tanggal_pinjam,
+                'tanggal_kembali'=> $this->tanggal_kembali,
+                'jumlah'         => $this->jumlah,
+                'catatan'        => $this->catatan,
+                'status'         => 'pending',
+            ]);
 
-    });
+            // KURANGI STOK
+            $this->alat->decrement('stok', $this->jumlah);
 
-    // NOTIFIKASI
-    session()->flash('success', 'Pengajuan berhasil dikirim!');
+            // LOG AKTIVITAS
+            Log::info('Peminjaman diajukan', [
+                'user' => auth()->user()->name,
+                'alat' => $this->alat->nama,
+                'jumlah' => $this->jumlah,
+            ]);
 
-    return redirect()->route('peminjam.dashboard');
-}
+        }); // ← WAJIB ADA (penutup transaction)
+
+        session()->flash('success', 'Pengajuan berhasil dikirim!');
+
+        return redirect()->route('peminjam.dashboard');
+    }
 
     public function render()
     {

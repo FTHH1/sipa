@@ -6,13 +6,15 @@ use Livewire\Component;
 use App\Models\Peminjaman;
 use App\Models\User;
 use App\Models\AlatMusik;
+use Illuminate\Support\Facades\DB;
+
 
 class PeminjamanIndex extends Component
 {
     public $peminjamanId;
     public $denda = 0;
     public $user_id;
-    public $alat_musik_id;
+    public $alat_id;
     public $jumlah;
     public $tanggal_pinjam;
     public $tanggal_kembali;
@@ -24,7 +26,7 @@ class PeminjamanIndex extends Component
 
     protected $rules = [
         'user_id' => 'required',
-        'alat_musik_id' => 'required',
+        'alat_id' => 'required',
         'jumlah' => 'required|numeric|min:1',
         'tanggal_pinjam' => 'required|date',
         'tanggal_kembali' => 'required|date|after_or_equal:tanggal_pinjam',
@@ -47,7 +49,7 @@ class PeminjamanIndex extends Component
         $this->peminjamanId = null;
 
         $this->user_id = '';
-        $this->alat_musik_id = '';
+        $this->alat_id = '';
         $this->jumlah = '';
         $this->tanggal_pinjam = '';
         $this->tanggal_kembali = '';
@@ -67,7 +69,7 @@ class PeminjamanIndex extends Component
 
     Peminjaman::create([
         'user_id' => $this->user_id,
-        'alat_id' => $this->alat_musik_id,
+        'alat_id' => $this->alat_id,
         'jumlah' => $this->jumlah,
         'tanggal_pinjam' => $this->tanggal_pinjam,
         'tanggal_kembali' => $this->tanggal_kembali,
@@ -89,7 +91,7 @@ class PeminjamanIndex extends Component
         $this->peminjamanId = $data->id;
 
         $this->user_id = $data->user_id;
-        $this->alat_musik_id = $data->alat_musik_id;
+        $this->alat_id = $data->alat_id;
         $this->jumlah = $data->jumlah;
         $this->tanggal_pinjam = $data->tanggal_pinjam;
         $this->tanggal_kembali = $data->tanggal_kembali;
@@ -109,7 +111,7 @@ class PeminjamanIndex extends Component
     Peminjaman::where('id', $this->peminjamanId)
         ->update([
             'user_id' => $this->user_id,
-            'alat_musik_id' => $this->alat_musik_id,
+            'alat_id' => $this->alat_id,
             'jumlah' => $this->jumlah,
             'tanggal_pinjam' => $this->tanggal_pinjam,
             'tanggal_kembali' => $this->tanggal_kembali,

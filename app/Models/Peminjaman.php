@@ -9,20 +9,16 @@ use App\Models\AlatMusik;
 
 class Peminjaman extends Model
 {
-    use HasFactory;
-
-    //  NAMA TABEL
     protected $table = 'peminjamans';
 
     protected $fillable = [
         'user_id',
-        'alat_musik_id',
-        'jumlah',
+        'alat_id',
         'tanggal_pinjam',
         'tanggal_kembali',
-        'status',
-        'denda',
+        'jumlah',
         'catatan',
+        'status',
     ];
 
     // RELASI USER
@@ -31,10 +27,10 @@ class Peminjaman extends Model
         return $this->belongsTo(User::class);
     }
 
-    // RELASI ALAT
-            public function alat()
-            {
-                return $this->belongsTo(AlatMusik::class, 'alat_id');
-            }
+    // RELASI ALAT (INI YANG BIKIN "-" HILANG)
+    public function alat()
+    {
+        return $this->belongsTo(AlatMusik::class, 'alat_id');
+    }
 
 }
