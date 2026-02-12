@@ -62,6 +62,10 @@
                     </tr>
                 @endforelse
             </tbody>
+
+            <div class="mt-4">
+                {{ $logs->links() }}
+            </div>
         </table>
 
     </flux:card>

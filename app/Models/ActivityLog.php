@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
+
 class ActivityLog extends Model
 {
     protected $table = 'activity_logs';
-
-    public $timestamps = false;
 
     protected $fillable = [
         'user_id',
@@ -17,6 +16,9 @@ class ActivityLog extends Model
         'description',
         'created_at',
     ];
+
+    // Karena tabel tidak punya updated_at
+    public $timestamps = false;
 
     public function user()
     {

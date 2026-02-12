@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Models\Peminjaman;
+use App\Models\ActivityLog;
 
 
 class User extends Authenticatable
@@ -72,4 +73,10 @@ class User extends Authenticatable
         {
             return $this->hasMany(Peminjaman::class);
         }
+
+    public function activityLogs()
+{
+    return $this->hasMany(ActivityLog::class);
+}
+
 }

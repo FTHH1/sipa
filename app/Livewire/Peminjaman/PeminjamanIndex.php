@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Peminjaman;
 use App\Models\User;
 use App\Models\AlatMusik;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -84,6 +86,14 @@ class PeminjamanIndex extends Component
         'denda' => $denda, // ⬅️ SIMPAN DENDA
     ]);
 
+       // ✅ ACTIVITY LOG
+    ActivityLog::create([
+        'user_id' => Auth::id(),
+        'action' => 'Ajukan Peminjaman',
+        'description' => 'Mengajukan alat: '.$alat->nama,
+    ]);
+
+
     session()->flash('success', 'Data berhasil disimpan');
 
     $this->resetForm();
@@ -126,6 +136,13 @@ class PeminjamanIndex extends Component
             'denda' => $denda, // ⬅️ UPDATE DENDA
         ]);
 
+        // ACTIVITY LOG
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Peminjaman',
+            'description' => 'Update peminjaman alat: '.$alat->nama,
+        ]);
+
     session()->flash('success', 'Peminjaman berhasil diupdate');
 
     $this->resetForm();
@@ -135,7 +152,16 @@ class PeminjamanIndex extends Component
 
     public function delete($id)
     {
-        Peminjaman::findOrFail($id)->delete();
+        $pinjam = Peminjaman::findOrFail($id);
+         $alat = AlatMusik::find($pinjam->alat_id);
+
+    $pinjam->delete();
+
+    ActivityLog::create([
+        'user_id' => Auth::id(),
+        'action' => 'Hapus Peminjaman',
+        'description' => 'Menghapus peminjaman alat: '.$alat->nama,
+    ]);
 
         session()->flash('success', 'Peminjaman berhasil dihapus');
     }
@@ -193,6 +219,13 @@ public function pinjamkan($id)
         // Update status
         $pinjam->update([
             'status' => 'dipinjam'
+        ]);
+
+        // ✅ ACTIVITY LOG
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Pinjamkan Alat',
+            'description' => 'Meminjamkan: '.$alat->nama,
         ]);
     });
 

@@ -4,9 +4,14 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\ActivityLog;
+use Livewire\WithPagination;
 
 class ActivityLogPage extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
+
     public $role = '';
     public $date = '';
 
@@ -21,8 +26,8 @@ class ActivityLogPage extends Component
             ->when($this->date, function ($query) {
                 $query->whereDate('created_at', $this->date);
             })
-            ->latest()
-            ->get();
+            ->latest('created_at')
+            ->paginate(15); // GANTI INI
 
         return view('livewire.admin.activity-log-page', [
             'logs' => $logs,
