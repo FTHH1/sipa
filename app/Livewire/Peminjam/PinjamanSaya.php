@@ -26,6 +26,7 @@ class PinjamanSaya extends Component
         ]);
 
 
+
                 logActivity(
             'Ajukan Pengembalian',
             'Mengajukan pengembalian: '.$pinjam->alat->nama
@@ -46,8 +47,6 @@ class PinjamanSaya extends Component
     $pinjam->update([
         'status' => 'minta_kembali'
     ]);
-
-
 
     session()->flash('success', 'Pengembalian diajukan, tunggu persetujuan petugas.');
 }

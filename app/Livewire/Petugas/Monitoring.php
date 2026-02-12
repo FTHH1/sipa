@@ -6,47 +6,51 @@ use Livewire\Component;
 use App\Models\Peminjaman;
 use App\Models\AlatMusik;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\ActivityLog;
 
 class Monitoring extends Component
 {
+    /* ================= SETUJUI & PINJAM ================= */
+
     public function setujui($id)
     {
-        $pinjam = Peminjaman::findOrFail($id);
+        DB::transaction(function () use ($id) {
 
-        $pinjam->update([
-            'status' => 'disetujui'
-        ]);
+            $pinjam = Peminjaman::findOrFail($id);
+            $alat   = AlatMusik::findOrFail($pinjam->alat_id);
 
-    logActivity(
-            'Setujui Peminjaman',
-            'Menyetujui peminjaman ID '.$id
-        );
+            // Validasi status
+            if ($pinjam->status !== 'pending') {
+                throw new \Exception('Status tidak valid');
+            }
 
-        session()->flash('success', 'Peminjaman disetujui');
+            // Cek stok
+            if ($alat->stok < $pinjam->jumlah) {
+                throw new \Exception('Stok tidak mencukupi');
+            }
+
+            // Kurangi stok
+            $alat->decrement('stok', $pinjam->jumlah);
+
+            // Update status
+            $pinjam->update([
+                'status' => 'dipinjam'
+            ]);
+
+            // Log
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'Setujui & Pinjamkan',
+                'description' => 'Menyetujui dan meminjamkan: '.$alat->nama,
+            ]);
+        });
+
+        session()->flash('success', 'Peminjaman disetujui & langsung dipinjamkan');
     }
 
-public function pinjamkan($id)
-{
-    $pinjam = Peminjaman::findOrFail($id);
 
-    if ($pinjam->status !== 'disetujui') {
-        session()->flash('error', 'Status tidak valid');
-        return;
-    }
-
-    $pinjam->update([
-        'status' => 'dipinjam'
-    ]);
-
-    // LOG
-    logActivity(
-    'Pinjamkan Alat',
-    'Meminjamkan: '.$pinjam->alat->nama
-);
-
-    session()->flash('success', 'Barang berhasil dipinjamkan');
-}
+    /* ================= TOLAK ================= */
 
     public function tolak($id)
     {
@@ -56,27 +60,16 @@ public function pinjamkan($id)
             'status' => 'ditolak'
         ]);
 
+        logActivity(
+            'Tolak Peminjaman',
+            'Menolak peminjaman ID '.$id
+        );
+
         session()->flash('error', 'Peminjaman ditolak');
     }
-            public function render()
-                    {
-                        return view('livewire.petugas.monitoring', [
-                            'peminjamans' => Peminjaman::with(['user','alat'])
-                                ->whereIn('status', [
-                                    'pending',
-                                    'disetujui',
-                                    'minta_kembali'
-                                ])
-                                ->latest()
-                                ->get()
-                        ]);
-                            logActivity(
-                                'Tolak Peminjaman',
-                                'Menolak peminjaman ID '.$id
-                      );
-                    }
 
 
+    /* ================= TERIMA PENGEMBALIAN ================= */
 public function terimaPengembalian($id)
 {
     DB::transaction(function () use ($id) {
@@ -86,24 +79,48 @@ public function terimaPengembalian($id)
             ->where('status', 'minta_kembali')
             ->firstOrFail();
 
-        // Update status
-        $pinjam->update([
-            'status' => 'dikembalikan'
-        ]);
 
-        // Tambah stok
+        // ✅ Tambah stok kembali
         if ($pinjam->alat) {
             $pinjam->alat->increment('stok', $pinjam->jumlah);
         }
 
-                    logActivity(
-                'Terima Pengembalian',
-                'Menerima pengembalian: '.$pinjam->alat->nama
-            );
+        // ✅ Update status
+        $pinjam->update([
+            'status' => 'dikembalikan'
+        ]);
+
+        // ✅ Log
+        logActivity(
+            'Terima Pengembalian',
+            'Menerima pengembalian: '.$pinjam->alat->nama
+        );
+
 
     });
 
-    session()->flash('success', 'Pengembalian berhasil diverifikasi.');
+    session()->flash('success', 'Pengembalian berhasil diverifikasi');
+
+       $this->dispatch('stokUpdated');
 }
 
+
+
+    /* ================= RENDER ================= */
+
+    public function render()
+    {
+        return view('livewire.petugas.monitoring', [
+            'peminjamans' => Peminjaman::with(['user','alat'])
+                ->whereIn('status', [
+                    'pending',
+                    'disetujui',
+                    'minta_kembali'
+                ])
+                ->latest()
+                ->get()
+        ]);
+
+        $this->dispatch('stok-updated');
+    }
 }

@@ -33,4 +33,9 @@ class Peminjaman extends Model
         return $this->belongsTo(AlatMusik::class, 'alat_id');
     }
 
+
+            public function getStatusLabelAttribute()
+        {
+            return ucwords(str_replace('_', ' ', $this->status));
+        }
 }

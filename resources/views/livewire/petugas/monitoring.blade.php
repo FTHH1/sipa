@@ -77,16 +77,6 @@
                     @endif
 
 
-                    {{-- PINJAMKAN --}}
-                    @if($p->status == 'disetujui')
-                        <button
-                            wire:click="pinjamkan({{ $p->id }})"
-                            class="px-2 py-1 bg-blue-600 text-black rounded text-xs"
-                        >
-                            Pinjamkan
-                        </button>
-                    @endif
-
                 </td>
 
             </tr>
