@@ -1,213 +1,191 @@
-    <div>
-
-        <flux:card class="max-w-6xl mx-auto space-y-6">
-
-            {{-- JUDUL --}}
-            <flux:heading size="lg">
-                Data Peminjaman
-            </flux:heading>
-
-
-            {{-- ALERT --}}
-            @if (session()->has('success'))
-                <flux:card class="bg-green-50 text-green-700 p-3">
-                    {{ session('success') }}
-                </flux:card>
-            @endif
-
-
-            <div class="grid grid-cols-1 gap-6">
-
-                {{-- TABLE --}}
-                        <flux:card class="w-full">
-
-                            <div class="w-full overflow-x-auto">
-
-                                <table class="w-full text-sm ">
-
-                                    <thead class="bg-zinc-100">
-                                        <tr>
-                                            <th class="p-3 text-left">No</th>
-                                            <th class="p-3 text-left">User</th>
-                                            <th class="p-3 text-left">Alat</th>
-                                            <th class="p-3 text-center">Jumlah</th>
-                                            <th class="p-3 text-center">Pinjam</th>
-                                            <th class="p-3 text-center">Kembali</th>
-                                            <th class="p-3 text-center">Status</th>
-                                            <th class="p-3 text-center">Denda</th>
-                                            <th class="p-3 text-center">Aksi</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        @forelse($peminjamans as $item)
-
-                                        <tr class="border-t">
-
-                                            <td class="p-3">{{ $loop->iteration }}</td>
-
-                                            <td class="p-3">
-                                                {{ $item->user->name ?? '-' }}
-                                            </td>
-
-                                            <td class="p-3">
-                                                {{ $item->alat->nama ?? '-' }}
-                                            </td>
-
-                                            <td class="p-3 text-center">
-                                                {{ $item->jumlah }}
-                                            </td>
-
-                                            <td class="p-3 text-center">
-                                                {{ $item->tanggal_pinjam }}
-                                            </td>
-
-                                            <td class="p-3 text-center">
-                                                {{ $item->tanggal_kembali }}
-                                            </td>
-
-                                            <td class="p-3 text-center font-semibold">
-                                                {{ ucfirst($item->status) }}
-                                            </td>
-
-                                            <td class="p-3 text-center text-red-600">
-                                                Rp {{ number_format($item->denda,0,',','.') }}
-                                            </td>
-
-                                            <td class="p-3 text-center space-x-1">
-
-                                                <flux:button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    wire:click="edit({{ $item->id }})"
-                                                >
-                                                    Edit
-                                                </flux:button>
-
-                                                <flux:button
-                                                    size="sm"
-                                                    variant="danger"
-                                                    wire:click="delete({{ $item->id }})"
-                                                    onclick="return confirm('Hapus data?')"
-                                                >
-                                                    Hapus
-                                                </flux:button>
-
-                                            </td>
-
-                                        </tr>
-
-                                        @empty
-
-                                        <tr>
-                                            <td colspan="9" class="p-6 text-center text-zinc-500">
-                                                Data kosong
-                                            </td>
-                                        </tr>
-
-                                        @endforelse
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
-
-                        </flux:card>
-
-
-            </div>
-
-        </flux:card>
-
-
-                {{-- ================= --}}
-{{-- DATA PENGEMBALIAN --}}
-{{-- ================= --}}
-
-<flux:card class="mt-10 w-full">
-
-    <flux:heading size="sm" class="mb-4">
-        Monitoring Pengembalian
-    </flux:heading>
-
-    <div class="overflow-x-auto">
-
-        <table class="w-full text-sm border">
-
-            <thead class="bg-zinc-100">
-
-                <tr>
-                    <th class="p-2">No</th>
-                    <th class="p-2">User</th>
-                    <th class="p-2">Alat</th>
-                    <th class="p-2">Jumlah</th>
-                    <th class="p-2">Status</th>
-                    <th class="p-2">Tanggal</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-            @forelse($pengembalians as $item)
-
-                <tr class="border-t text-center">
-
-                    <td class="p-2">{{ $loop->iteration }}</td>
-
-                    <td class="p-2">
-                        {{ $item->user->name ?? '-' }}
-                    </td>
-
-                    <td class="p-2">
-                        {{ $item->alat->nama ?? '-' }}
-                    </td>
-
-                    <td class="p-2">
-                        {{ $item->jumlah }}
-                    </td>
-
-                    <td class="p-2 font-semibold">
-
-                        @if($item->status == 'minta_kembali')
-                            <span class="text-orange-600">
-                                Menunggu Verifikasi
-                            </span>
-                        @elseif($item->status == 'dikembalikan')
-                            <span class="text-green-600">
-                                Selesai
-                            </span>
-                        @endif
-
-                    </td>
-
-                    <td class="p-2">
-                        {{ $item->updated_at->format('d-m-Y') }}
-                    </td>
-
-                </tr>
-
-            @empty
-
-                <tr>
-                    <td colspan="6"
-                        class="p-4 text-center text-gray-500">
-
-                        Belum ada pengembalian
-
-                    </td>
-                </tr>
-
-            @endforelse
-
-            </tbody>
-
-        </table>
+<div class="bg-white p-6 rounded shadow">
+
+    <h2 class="text-xl font-bold mb-4">
+        Monitoring Peminjaman
+    </h2>
+
+
+    {{-- ALERT --}}
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 p-2 mb-3 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
+
+    {{-- ================= FORM EDIT ================= --}}
+      @if($isEdit)
+
+<div class="border rounded p-4 mb-4">
+
+    <h3 class="font-bold mb-3">Edit Peminjaman</h3>
+
+    <div class="grid grid-cols-3 gap-3">
+
+        <div>
+            <label>Peminjam</label>
+            <select wire:model="user_id" class="w-full border rounded p-2">
+                <option value="">-- Pilih --</option>
+                @foreach($users as $u)
+                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label>Alat</label>
+            <select wire:model="alat_id" class="w-full border rounded p-2">
+                <option value="">-- Pilih --</option>
+                @foreach($alats as $a)
+                    <option value="{{ $a->id }}">{{ $a->nama }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label>Jumlah</label>
+            <input type="number" wire:model="jumlah"
+                class="w-full border rounded p-2">
+        </div>
+
+        <div>
+            <label>Tgl Pinjam</label>
+            <input type="date" wire:model="tgl_pinjam"
+                class="w-full border rounded p-2">
+        </div>
+
+        <div>
+            <label>Tgl Kembali</label>
+            <input type="date" wire:model="tgl_kembali"
+                class="w-full border rounded p-2">
+        </div>
+
+        <div>
+            <label>Status</label>
+            <select wire:model="status" class="w-full border rounded p-2">
+                <option value="pending">Pending</option>
+                <option value="dipinjam">Dipinjam</option>
+                <option value="dikembalikan">Dikembalikan</option>
+            </select>
+        </div>
 
     </div>
 
-</flux:card>
+    <div class="mt-3 flex gap-2">
+
+        <button wire:click="update"
+            class="bg-blue-600 text-black px-4 py-2 rounded">
+            Update
+        </button>
+
+        <button wire:click="resetForm"
+            class="bg-gray-500 text-black px-4 py-2 rounded">
+            Batal
+        </button>
+
+    </div>
+
+</div>
+
+@endif
+
+
+
+    {{-- ================= TABLE ================= --}}
+    <table class="w-full border text-sm">
+
+        <thead class="bg-gray-100">
+
+            <tr>
+                <th class="p-2 border">No</th>
+                <th class="p-2 border">User</th>
+                <th class="p-2 border">Alat</th>
+                <th class="p-2 border">Jumlah</th>
+                <th class="p-2 border">Tanggal</th>
+                <th class="p-2 border">Status</th>
+                <th class="p-2 border">Aksi</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        @forelse($peminjamans as $p)
+
+            <tr class="text-center border-t">
+
+                <td class="p-2">{{ $loop->iteration }}</td>
+
+                <td class="p-2">{{ $p->user->name ?? '-' }}</td>
+
+                <td class="p-2">{{ $p->alat->nama ?? '-' }}</td>
+
+                <td class="p-2">{{ $p->jumlah }}</td>
+
+                <td class="p-2">
+                    {{ $p->tanggal_pinjam }} <br>
+                    s/d {{ $p->tanggal_kembali }}
+                </td>
+
+                <td class="p-2 font-semibold">
+
+                    @if($p->status == 'pending')
+                        <span class="text-orange-500">Pending</span>
+                    @elseif($p->status == 'dipinjam')
+                        <span class="text-blue-600">Dipinjam</span>
+                    @elseif($p->status == 'dikembalikan')
+                        <span class="text-green-600">Dikembalikan</span>
+                    @elseif($p->status == 'ditolak')
+                        <span class="text-red-600">Ditolak</span>
+                    @endif
+
+                </td>
+
+
+                {{-- AKSI --}}
+                <td class="p-2">
+
+                    <div class="flex justify-center gap-2">
+
+                        <button
+                            wire:click="edit({{ $p->id }})"
+                            class="px-3 py-1 text-xs rounded-md border
+                                bg-white  shadow-sm">
+
+                            Edit
+                        </button>
+
+
+                        <button
+                            wire:click="delete({{ $p->id }})"
+                            onclick="return confirm('Hapus data ini?')"
+                            class="px-3 py-1 text-xs rounded-md
+                                bg-red-500 text-black shadow-sm">
+
+                            Hapus
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        @empty
+
+            <tr>
+                <td colspan="7"
+                    class="p-4 text-center text-gray-500">
+
+                    Belum ada peminjaman
+                </td>
+            </tr>
+
+        @endforelse
+
+        </tbody>
+
+    </table>
 
 </div>

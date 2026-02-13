@@ -9,6 +9,7 @@ use App\Livewire\Admin\Users\Index;
 use App\Livewire\Admin\Users\CreateUser;
 use App\Livewire\Admin\Users\EditUser;
 use App\Livewire\Admin\ActivityLogPage;
+use App\Livewire\Admin\Pengembalian;
 
 // PETUGAS
 use App\Livewire\Petugas\Dashboard as PetugasDashboard;
@@ -50,21 +51,27 @@ Route::middleware(['auth'])->group(function () {
     | ADMIN
     |--------------------------------------------------------------------------
     */
-    Route::middleware(['role:admin'])->group(function () {
+            Route::middleware(['role:admin'])->group(function () {
 
-        Route::get('/dashboard', AdminDashboard::class)
-            ->name('dashboard');
+            Route::get('/dashboard', AdminDashboard::class)
+                ->name('dashboard');
 
-        Route::prefix('users')->name('admin.users.')->group(function () {
-            Route::get('/', Index::class)->name('index');
-            Route::get('/create', CreateUser::class)->name('create');
-            Route::get('/{user}/edit', EditUser::class)->name('edit');
+            // USERS
+            Route::prefix('users')->name('admin.users.')->group(function () {
+                Route::get('/', Index::class)->name('index');
+                Route::get('/create', CreateUser::class)->name('create');
+                Route::get('/{user}/edit', EditUser::class)->name('edit');
+            });
+
+            // ✅ PENGEMBALIAN (TARUH DI SINI)
+            Route::get('/admin/pengembalian', Pengembalian::class)
+                ->name('admin.pengembalian');
+
+            // LOG
+            Route::get('/logs', ActivityLogPage::class)
+                ->name('admin.logs');
         });
 
-        Route::get('/logs', ActivityLogPage::class)
-            ->name('admin.logs');
-
-    });
 
 
     /*

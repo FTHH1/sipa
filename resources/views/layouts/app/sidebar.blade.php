@@ -158,6 +158,15 @@
             </flux:sidebar.item>
 
             <flux:sidebar.item
+                    icon="arrow-uturn-left"
+                    :href="route('admin.pengembalian')"
+                    :current="request()->routeIs('admin.pengembalian')"
+                    wire:navigate
+                >
+                    Pengembalian
+                </flux:sidebar.item>
+
+            <flux:sidebar.item
                 icon="clipboard-document-list"
                 :href="route('admin.logs')"
                 :current="request()->routeIs('admin.logs')"
