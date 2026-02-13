@@ -15,8 +15,8 @@ class PeminjamanIndex extends Component
     public $user_id;
     public $alat_id;
     public $jumlah;
-    public $tgl_pinjam;
-    public $tgl_kembali;
+    public $tanggal_pinjam;
+    public $tanggal_kembali;
     public $status = 'pending';
 
     public $isEdit = false;
@@ -114,31 +114,30 @@ class PeminjamanIndex extends Component
     /* UPDATE */
     /* ======================= */
     public function update()
-    {
-        $this->validate([
+{
+    $this->validate([
         'user_id' => 'required',
         'alat_id' => 'required',
-        'jumlah' => 'required|numeric',
-        'tgl_pinjam' => 'required|date',
-        'tgl_kembali' => 'required|date',
+        'jumlah' => 'required|numeric|min:1',
+        'tanggal_pinjam' => 'required|date',
+        'tanggal_kembali' => 'required|date|after_or_equal:tanggal_pinjam',
         'status' => 'required',
     ]);
 
-        Peminjaman::where('id', $this->peminjamanId)
-            ->update([
-                'user_id' => $this->user_id,
-                'alat_id' => $this->alat_id,
-                'jumlah' => $this->jumlah,
-                'tanggal_pinjam' => $this->tanggal_pinjam,
-                'tanggal_kembali' => $this->tanggal_kembali,
-                'status' => $this->status,
-            ]);
+    Peminjaman::where('id', $this->peminjamanId)
+        ->update([
+            'user_id' => $this->user_id,
+            'alat_id' => $this->alat_id,
+            'jumlah' => $this->jumlah,
+            'tanggal_pinjam' => $this->tanggal_pinjam,
+            'tanggal_kembali' => $this->tanggal_kembali,
+            'status' => $this->status,
+        ]);
 
-        session()->flash('success','Peminjaman berhasil diupdate');
+    session()->flash('success','Peminjaman berhasil diupdate');
 
-        $this->resetForm();
-    }
-
+    $this->resetForm();
+}
 
     /* ======================= */
     /* DELETE */

@@ -50,13 +50,7 @@
 
         <div>
             <label>Tgl Pinjam</label>
-            <input type="date" wire:model="tgl_pinjam"
-                class="w-full border rounded p-2">
-        </div>
-
-        <div>
-            <label>Tgl Kembali</label>
-            <input type="date" wire:model="tgl_kembali"
+            <input type="date" wire:model="tanggal_pinjam"
                 class="w-full border rounded p-2">
         </div>
 
