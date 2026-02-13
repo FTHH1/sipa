@@ -15,8 +15,8 @@ class PeminjamanIndex extends Component
     public $user_id;
     public $alat_id;
     public $jumlah;
-    public $tanggal_pinjam;
-    public $tanggal_kembali;
+    public $tgl_pinjam;
+    public $tgl_kembali;
     public $status = 'pending';
 
     public $isEdit = false;

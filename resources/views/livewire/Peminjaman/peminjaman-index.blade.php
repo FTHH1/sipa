@@ -125,7 +125,6 @@
 
                 <td class="p-2">
                     {{ $p->tanggal_pinjam }} <br>
-                    s/d {{ $p->tanggal_kembali }}
                 </td>
 
                 <td class="p-2 font-semibold">
