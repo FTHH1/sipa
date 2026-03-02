@@ -63,14 +63,14 @@
                     @if($p->status == 'pending')
                         <button
                             wire:click="setujui({{ $p->id }})"
-                            class="px-2 py-1 bg-green-600 text-black rounded text-xs"
+                           class="px-3 py-1 bg-green-600 text-black rounded text-xs cursor-pointer hover:bg-green-700 transition"
                         >
                             Setujui
                         </button>
 
                         <button
                             wire:click="tolak({{ $p->id }})"
-                            class="px-2 py-1 bg-red-600 text-black rounded text-xs"
+                           class="px-2 py-1 bg-red-600 text-black rounded text-xs cursor-pointer hover:bg-red-700 transition"
                         >
                             Tolak
                         </button>
@@ -137,7 +137,7 @@
 
                     <button
                         wire:click="terimaPengembalian({{ $p->id }})"
-                        class="px-3 py-1 bg-green-600 text-black rounded text-xs"
+                        class="px-3 py-1 bg-green-600 text-black cursor-pointer rounded text-xs"
                     >
                         Terima
                     </button>

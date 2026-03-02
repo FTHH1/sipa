@@ -80,7 +80,7 @@
                                     <button
                                         wire:click="kembalikan({{ $item->id }})"
                                         onclick="confirm('Ajukan pengembalian?') || event.stopImmediatePropagation()"
-                                        class="px-4 py-1 bg-red-600 text-black rounded hover:bg-red-700"
+                                        class="px-4 py-1 bg-red-600 text-black cursor-pointer rounded hover:bg-red-700"
                                     >
                                         Ajukan Pengembalian
                                     </button>

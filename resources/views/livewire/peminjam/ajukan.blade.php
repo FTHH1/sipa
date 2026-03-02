@@ -3,9 +3,9 @@
         <div class="w-full max-w-3xl mx-auto bg-white rounded-xl border p-8">
 
             {{-- Judul --}}
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">
                 Ajukan Peminjaman
-            </h2>
+            </h1>
 
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -81,7 +81,7 @@
                         <label class="font-semibold text-sm">Tanggal Pinjam</label>
 
                         <input type="date"
-                            wire:model.defer="tanggal_pinjam"
+                            wire:model.live="tanggal_pinjam"
                             class="w-full max-w-xs border rounded-lg px-3 py-2 mt-1
                             @error('tanggal_pinjam') border-red-500 @enderror">
 
@@ -90,9 +90,25 @@
                         @enderror
                     </div>
 
+                    {{-- Deadline Otomatis --}}
+                        @if($tanggal_kembali)
+                        <div>
+                            <label class="font-semibold text-sm">Deadline Pengembalian</label>
+
+                            <input type="text"
+                                value="{{ \Carbon\Carbon::parse($tanggal_pinjam)->addDays(7)->format('d/m/Y') }}"
+                                readonly
+                                class="w-full border rounded-lg px-3 py-2 mt-1 bg-gray-100 text-black-600">
+
+                            <small class="text-yellow-500">
+                                Otomatis 7 hari setelah tanggal pinjam
+                            </small>
+                        </div>
+                        @endif
 
 
-                        {{-- Tgl Kembali --}}
+
+                     {{--Tgl Kembali
                         <div>
                             <label class="font-semibold text-sm">Tanggal Kembali</label>
 
@@ -105,6 +121,7 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+                        }}
 
                         {{-- Jumlah Pinjam --}}
                                 <div>

@@ -10,7 +10,7 @@
             <!-- Name -->
             <flux:input
                 name="name"
-                :label="__('Name')"
+                :label="__('Name*')"
                 :value="old('name')"
                 type="text"
                 required
@@ -22,7 +22,7 @@
                 <!-- No HP -->
                 <flux:input
                     name="no_hp"
-                    :label="__('No Handphone')"
+                    :label="__('No Handphone*')"
                     :value="old('no_hp')"
                     type="text"
                     required
@@ -34,7 +34,7 @@
              <!-- Alamat -->
             <flux:input
                 name="alamat"
-                :label="__('Alamat')"
+                :label="__('Alamat*')"
                 :value="old('alamat')"
                 type="text"
                 required
@@ -46,7 +46,7 @@
             <!-- Email Address -->
             <flux:input
                 name="email"
-                :label="__('Email address')"
+                :label="__('Email address*')"
                 :value="old('email')"
                 type="email"
                 required
@@ -57,7 +57,7 @@
             <!-- Password -->
             <flux:input
                 name="password"
-                :label="__('Password')"
+                :label="__('Password*')"
                 type="password"
                 required
                 autocomplete="new-password"
@@ -68,7 +68,7 @@
             <!-- Confirm Password -->
             <flux:input
                 name="password_confirmation"
-                :label="__('Confirm password')"
+                :label="__('Confirm password*')"
                 type="password"
                 required
                 autocomplete="new-password"

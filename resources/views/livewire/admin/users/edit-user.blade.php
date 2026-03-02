@@ -22,6 +22,28 @@
                 />
             </div>
 
+                            <!-- No HP -->
+                <flux:input
+                    name="no_hp"
+                    label="No Handphone*"
+                    wire:model.defer="user.no_hp"
+                    type="text"
+                    required
+                    autocomplete="tel"
+                    placeholder="08xxxxxxxxxx"
+                />
+
+                <!-- Alamat -->
+                <flux:input
+                    name="alamat"
+                    label="Alamat*"
+                    wire:model.defer="user.alamat"
+                    type="text"
+                    required
+                    autocomplete="street-address"
+                    placeholder="Isikan Alamat Mu Disini"
+                />
+
             <div>
                 <label class="text-sm font-medium">Role</label>
                 <select

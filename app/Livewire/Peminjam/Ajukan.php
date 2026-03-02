@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Peminjam;
 
+
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\AlatMusik;
 use App\Models\Peminjaman;
@@ -18,15 +20,12 @@ class Ajukan extends Component
 
     protected $rules = [
         'tanggal_pinjam'   => 'required|date',
-        'tanggal_kembali'  => 'required|date|after_or_equal:tanggal_pinjam',
         'catatan'          => 'required|min:3',
         'jumlah'           => 'required|integer|min:1',
     ];
 
     protected $messages = [
         'tanggal_pinjam.required'  => 'Tanggal pinjam wajib diisi',
-        'tanggal_kembali.required' => 'Tanggal kembali wajib diisi',
-        'tanggal_kembali.after_or_equal' => 'Tanggal kembali tidak boleh sebelum tanggal pinjam',
         'catatan.required' => 'Catatan wajib diisi',
     ];
 
@@ -34,6 +33,15 @@ class Ajukan extends Component
     {
         $this->alat = AlatMusik::findOrFail($id);
     }
+
+    public function updatedTanggalPinjam()
+{
+    if ($this->tanggal_pinjam) {
+        $this->tanggal_kembali = Carbon::parse($this->tanggal_pinjam)
+            ->addDays(7)
+            ->format('Y-m-d');
+    }
+}
 
     public function submit()
     {
@@ -54,7 +62,7 @@ class Ajukan extends Component
                 'user_id'        => auth()->id(),
                 'alat_id'        => $this->alat->id,
                 'tanggal_pinjam'=> $this->tanggal_pinjam,
-                'tanggal_kembali'=> $this->tanggal_kembali,
+                'tanggal_kembali'=> Carbon::parse($this->tanggal_pinjam)->addDays(7),
                 'jumlah'         => $this->jumlah,
                 'catatan'        => $this->catatan,
                 'status'         => 'pending',
